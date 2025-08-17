@@ -1,17 +1,21 @@
-import Express from "express";
-import { sequelize } from "./lib/db.js";
-import { UserRouter } from "./routes/UserRoute.js";
-import { AuthRouter } from "./routes/AuthRouter.js";
+const Express = require("express");
+const { sequelize } = require("./lib/db.js");
+const { UserRouter } = require("./routes/UserRoute.js");
+const { AuthRouter } = require("./routes/AuthRouter.js");
+const { AdminAuthMiddleware } = require("./middleware/AuthMiddleware.js");
 
-export const server = Express();
+require("dotenv").config();
+
+const server = Express();
 
 const port = process.env.PORT || 3000;
 
 server.use(Express.json()); // for parsing application/json
 server.use(Express.urlencoded({ extended: false })); // for parsing application/x-www-form-urlencoded
 
-server.use("/api/v1/user", UserRouter);
 server.use("/api/v1/auth", AuthRouter);
+// server.use("/api/v1/user", AdminAuthMiddleware, UserRouter);
+server.use("/api/v1/user", UserRouter);
 
 const startServer = () => {
   try {

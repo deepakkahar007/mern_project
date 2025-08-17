@@ -1,6 +1,16 @@
-import { Router } from "express";
-import { GetAllUser } from "../controller/User.js";
+const { Router } = require("express");
+const {
+  GetAllUser,
+  CreateUser,
+  GetUser,
+  UpdateUser,
+  DeleteUser,
+} = require("../controller/User");
 
-export const UserRouter = Router();
+const UserRouter = Router();
 
-UserRouter.route("/").get(GetAllUser);
+UserRouter.route("/all").get(GetAllUser);
+UserRouter.route("/create").post(CreateUser);
+UserRouter.route("/:id").get(GetUser).patch(UpdateUser).delete(DeleteUser);
+
+module.exports = { UserRouter };

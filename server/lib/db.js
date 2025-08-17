@@ -1,6 +1,8 @@
-import { Sequelize } from "sequelize";
+const { Sequelize } = require("sequelize");
 
-export const sequelize = new Sequelize("test", "user", "user123", {
+const sequelize = new Sequelize("test", "user", "user123", {
   host: "localhost",
   dialect: "mysql",
 });
+
+module.exports = { sequelize };
