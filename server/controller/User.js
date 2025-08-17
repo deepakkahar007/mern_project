@@ -4,6 +4,7 @@ const {
   getAllUser,
   deleteUserById,
 } = require("../db/query");
+const { hashPassword } = require("../lib/utils");
 
 const GetAllUser = async (req, res) => {
   try {

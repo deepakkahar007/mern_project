@@ -1,4 +1,15 @@
-const { sign, verify, decode } = require("jsonwebtoken");
+const { sign, verify } = require("jsonwebtoken");
+const { compare, hash, genSalt } = require("bcrypt");
+
+const hashPassword = async (password) => {
+  const salt = await genSalt(10);
+
+  return await hash(password, salt);
+};
+
+const comparePassword = async (password, hashedPassword) => {
+  return await compare(password, hashedPassword);
+};
 
 const generateJwtToken = (id, username, email, role, isVerified) => {
   return sign(
@@ -14,8 +25,9 @@ const verifyJwtToken = (token) => {
   return verify(token, process.env.JWT_SECRET);
 };
 
-const decodeJwtToken = (token) => {
-  return decode(token);
+module.exports = {
+  generateJwtToken,
+  verifyJwtToken,
+  hashPassword,
+  comparePassword,
 };
-
-module.exports = { generateJwtToken, verifyJwtToken, decodeJwtToken };

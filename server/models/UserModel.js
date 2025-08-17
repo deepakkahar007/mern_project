@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../lib/db");
+const { hashPassword } = require("../lib/utils");
 
 const UserModel = sequelize.define("user", {
   id: {
@@ -35,6 +36,11 @@ const UserModel = sequelize.define("user", {
     defaultValue: false,
     allowNull: false,
   },
+});
+
+UserModel.beforeCreate(async (user) => {
+  const hashedPassword = await hashPassword(user.password);
+  user.password = hashedPassword;
 });
 
 module.exports = { UserModel };
