@@ -5,6 +5,7 @@ const { AuthRouter } = require("./routes/AuthRouter.js");
 const { AdminAuthMiddleware } = require("./middleware/AuthMiddleware.js");
 
 const cors = require("cors");
+const UploadRouter = require("./routes/UploadRouter.js");
 
 require("dotenv").config();
 
@@ -12,6 +13,7 @@ const server = Express();
 
 const port = process.env.PORT || 3000;
 
+// middleware
 server.use(
   cors({
     origin: "http://localhost:5173", // your React app URL
@@ -21,10 +23,13 @@ server.use(
 
 server.use(Express.json()); // for parsing application/json
 server.use(Express.urlencoded({ extended: false })); // for parsing application/x-www-form-urlencoded
+server.use("/upload", Express.static("upload"));
 
+// routes
 server.use("/api/v1/auth", AuthRouter);
 // server.use("/api/v1/user", AdminAuthMiddleware, UserRouter);
 server.use("/api/v1/user", UserRouter);
+server.use("/api/v1/upload", UploadRouter);
 
 const startServer = () => {
   try {
